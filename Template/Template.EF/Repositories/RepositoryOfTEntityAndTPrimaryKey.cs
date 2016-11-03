@@ -281,17 +281,35 @@ namespace Template.EF.Repositories
             using (DefaultDbContext db = new DefaultDbContext())
             {
                 TEntity data = db.Set<TEntity>().FirstOrDefault(CreateEqualityExpressionForId(entity.Id));
-                if (data == null) db.Set<TEntity>().Add(entity);
-                else db.Entry(entity).State = EntityState.Modified;
+                if (data == null)
+                {
+                    db.Entry(entity).State = EntityState.Added;
+                }
+                else
+                {
+                    db.Entry(data).State = EntityState.Detached;
+                    db.Entry(entity).State = EntityState.Modified;
+                }
                 return db.SaveChanges();
             }
         }
 
         public Task<int> AddOrUpdateAsync(TEntity entity)
         {
-            TEntity data = FirstOrDefault(entity.Id);
-            if (data == null) return AddAsync(entity);
-            else return UpdateAsync(entity);
+            using (DefaultDbContext db = new DefaultDbContext())
+            {
+                TEntity data = db.Set<TEntity>().FirstOrDefault(CreateEqualityExpressionForId(entity.Id));
+                if (data == null)
+                {
+                    db.Entry(entity).State = EntityState.Added;
+                }
+                else
+                {
+                    db.Entry(data).State = EntityState.Detached;
+                    db.Entry(entity).State = EntityState.Modified;
+                }
+                return db.SaveChangesAsync();
+            }
         }
         #endregion
 
