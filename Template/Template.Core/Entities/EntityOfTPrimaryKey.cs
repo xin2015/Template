@@ -32,7 +32,7 @@ namespace Template.Core.Entities
             {
                 return true;
             }
-            
+
             //Must have a IS-A relation of types or must be same type
             var other = (Entity<TPrimaryKey>)obj;
             var typeOfThis = GetType();
