@@ -54,6 +54,7 @@
     <Compile Include="DefaultDbContext.cs" />
     <Compile Include="Extensions\DbContextExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\RepositoryOfEntity.cs" />
     <Compile Include="Repositories\RepositoryOfTEntityAndTPrimaryKey.cs" />
   </ItemGroup>
   <ItemGroup>
